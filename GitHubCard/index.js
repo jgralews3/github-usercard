@@ -69,45 +69,46 @@ function createCard (obj){
   cardInfo.appendChild (cardUser);
   cardInfo.appendChild (cardLocation);
   cardInfo.appendChild (cardProfile);
-  cardProfile.appendChild (cardLink);
+  cardInfo.appendChild (cardLink);
   cardInfo.appendChild (cardFollowers);
   cardInfo.appendChild (cardFollowing);
   cardInfo.appendChild (cardBio);
 
+  cardDiv.classList.add ('card');
   cardInfo.classList.add ('card-info');
   cardName.classList.add ('name');
   cardUser.classList.add ('username');
 
-  // cardImg.src = obj.avatar_url;
-  cardName.textContent = obj.name;
-  cardUser.textContent = obj.login;
-  cardLocation.textContent = obj.location;
-  cardProfile.textContent = "Profile: ";
-  // cardLink.href = obj.html_url;
-  cardFollowers.textContent = obj.followers;
-  cardFollowing.textContent = obj.following;
-  cardBio.textContent = obj.bio;
+  cardImg.src = obj.data.avatar_url;
+  cardName.textContent = "Name: "+obj.data.name;
+  cardUser.textContent = "Username: "+obj.data.login;
+  cardLocation.textContent = "Location: "+obj.data.location;
+  cardLink.textContent = "Profile";
+  cardLink.href = obj.data.html_url;
+  cardFollowers.textContent = "Followers: "+obj.data.followers;
+  cardFollowing.textContent = "Following: "+obj.data.following;
+  if (obj.data.bio === null){
+    cardBio.textContent = "Bio: None provided.";
+  } else {cardBio.textContent = "Bio: "+obj.data.bio;}
   return cardDiv
 }
 
 let container = document.querySelector ('.cards');
 axios.get("https://api.github.com/users/jgralews3")
 .then(res => {
-  // res.data.forEach((card) => {container.appendChild(createCard(card))});
-  console.log (res);
-  })
+  container.appendChild(createCard(res))})
 .catch (err => {console.log ("Error")});
 
 
-const followersArray = ['tetondan', 'dustinmyers', 'justsml', 'luishrd', 'bigknell'];
+const followersArray = ['tetondan', 'dustinmyers', 'justsml', 'bigknell'];
 followersArray.forEach ((user) => {
   axios.get (`https://api.github.com/users/${user}`)
   .then(res => {
-    // res.data.forEach((card) => {container.appendChild(createCard(card))});
     console.log (res);
-    })
+    container.appendChild(createCard(res))})
   .catch (err => {console.log ("Error")});
 });
+
 
 /*
   List of LS Instructors Github username's:
