@@ -28,7 +28,7 @@
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
@@ -49,6 +49,65 @@ const followersArray = [];
       </div>
     </div>
 */
+
+function createCard (obj){
+  let cardDiv = document.createElement ('div');
+  let cardImg = document.createElement ('img');
+  let cardInfo = document.createElement ('div');
+  let cardName = document.createElement ('h3');
+  let cardUser = document.createElement ('p');
+  let cardLocation = document.createElement ('p');
+  let cardProfile = document.createElement ('p');
+  let cardLink = document.createElement ('a');
+  let cardFollowers = document.createElement ('p');
+  let cardFollowing = document.createElement ('p');
+  let cardBio = document.createElement ('p');
+
+  cardDiv.appendChild (cardImg);
+  cardDiv.appendChild (cardInfo);
+  cardInfo.appendChild (cardName);
+  cardInfo.appendChild (cardUser);
+  cardInfo.appendChild (cardLocation);
+  cardInfo.appendChild (cardProfile);
+  cardProfile.appendChild (cardLink);
+  cardInfo.appendChild (cardFollowers);
+  cardInfo.appendChild (cardFollowing);
+  cardInfo.appendChild (cardBio);
+
+  cardInfo.classList.add ('card-info');
+  cardName.classList.add ('name');
+  cardUser.classList.add ('username');
+
+  // cardImg.src = obj.avatar_url;
+  cardName.textContent = obj.name;
+  cardUser.textContent = obj.login;
+  cardLocation.textContent = obj.location;
+  cardProfile.textContent = "Profile: ";
+  // cardLink.href = obj.html_url;
+  cardFollowers.textContent = obj.followers;
+  cardFollowing.textContent = obj.following;
+  cardBio.textContent = obj.bio;
+  return cardDiv
+}
+
+let container = document.querySelector ('.cards');
+axios.get("https://api.github.com/users/jgralews3")
+.then(res => {
+  // res.data.forEach((card) => {container.appendChild(createCard(card))});
+  console.log (res);
+  })
+.catch (err => {console.log ("Error")});
+
+
+const followersArray = ['tetondan', 'dustinmyers', 'justsml', 'luishrd', 'bigknell'];
+followersArray.forEach ((user) => {
+  axios.get (`https://api.github.com/users/${user}`)
+  .then(res => {
+    // res.data.forEach((card) => {container.appendChild(createCard(card))});
+    console.log (res);
+    })
+  .catch (err => {console.log ("Error")});
+});
 
 /*
   List of LS Instructors Github username's:
